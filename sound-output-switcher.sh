@@ -14,13 +14,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 getOutputProfiles() {
-	result=`pacmd list-cards | egrep -e "[^<]output:" | egrep -e "input" -v | cut -d ':' -f2 | sed -e 's/^ *//g' -e 's/ *$//g'`
+	result=`pacmd list-sinks | egrep -e "[^<]analog-output-" | sed -e 's/^[ \t]*//' | cut -d ':' -f1`
 	echo "${result}"
 }
 
 getOutputDescription() {
-	result=`pacmd list-cards | egrep -e "[^<]output:" | egrep -e "input" -v | cut -d ':' -f3 | sed -e 's/^ *//g' -e 's/ *$//g' | sed -e 's/\(Output.*\)//g'`
-	echo "${result}"
+	result=`pacmd list-sinks | egrep -e "[^<]analog-output-" | sed -e 's/^[ \t]*//' | cut -d ':' -f1`
+	echo "${result}" | tac	# my setup returns the headphones for line-out and vice-versa, so reverse order with tac
 }
 
 
